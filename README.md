@@ -1,6 +1,6 @@
 <?code-excerpt path-base="excerpts/packages/paged_grid_view"?>
 
-# Add and edit calendar events
+# Paged GridView
 
 [![pub package](https://img.shields.io/pub/v/paged_grid_view.svg)](https://pub.dev/packages/paged_grid_view)
 
@@ -8,10 +8,9 @@ GridView with following adjustments:
 * PageScrollPhysics set as default
 * Better scroll performance by changing cacheExtent depending on scrollOffset to prevent itemBuild during scrolling.
 
+# An Example comparing it to GridView can be found at [dartpad.dev](https://dartpad.dev/?id=6c9f64d9032cefa564b72c7bbd1c979a).
+
 > :warning: **Doesn't improve scrollController.animateTo performance**
-
-
-An Example comparing it to GridView can be found at [dartpad.dev](https://dartpad.dev/?id=6c9f64d9032cefa564b72c7bbd1c979a).
 
 ## Installation
 
@@ -22,24 +21,25 @@ First, add `paged_grid_view` as a [dependency in your pubspec.yaml file](https:/
 ```
 import 'package:paged_grid_view/paged_grid_view.dart';
 
-  PagedGridView.builder(
-            itemCount: 1000,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent:
-                    MediaQuery.sizeOf(context).width / 10,
-                crossAxisCount: 10),
-            scrollDirection: Axis.horizontal,
-            physics: const PageScrollPhysics(),
-            itemBuilder: (context, index) {
-                return ColoredBox(
-                key: UniqueKey(),
-                color: Color(Random().nextInt(0xffffff) + 0xff000000),
-              );
-              }
-            )
-        );
-            
-
+  @override
+  Widget build(BuildContext context) {
+    @override
+    Widget build(BuildContext context) {
+      return PagedGridView.builder(
+          itemCount: 1000,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: MediaQuery.sizeOf(context).width / 10,
+              crossAxisCount: 10),
+          scrollDirection: Axis.horizontal,
+          physics: const PageScrollPhysics(),
+          itemBuilder: (context, index) {
+            return ColoredBox(
+              key: UniqueKey(),
+              color: Color(Random().nextInt(0xffffff) + 0xff000000),
+            );
+          });
+    }
+  }
 ```
 
 ## Example
