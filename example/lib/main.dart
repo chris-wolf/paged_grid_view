@@ -1,50 +1,3 @@
-<?code-excerpt path-base="excerpts/packages/paged_grid_view"?>
-
-# Add and edit calendar events
-
-[![pub package](https://img.shields.io/pub/v/paged_grid_view.svg)](https://pub.dev/packages/paged_grid_view)
-
-GridView with following adjustments:
-* PageScrollPhysics set as default
-* Better scroll performance by changing cacheExtent depending on scrollOffset to prevent itemBuild during scrolling.
-
-> :warning: **Doesn't improve scrollController.animateTo performance**
-
-
-An Example comparing it to GridView can be found at [dartpad.dev](https://dartpad.dev/?id=6c9f64d9032cefa564b72c7bbd1c979a).
-
-## Installation
-
-First, add `paged_grid_view` as a [dependency in your pubspec.yaml file](https://flutter.dev/using-packages/).
-
-##  Usage
-
-```
-import 'package:paged_grid_view/paged_grid_view.dart';
-
-  PagedGridView.builder(
-            itemCount: 1000,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent:
-                    MediaQuery.sizeOf(context).width / 10,
-                crossAxisCount: 10),
-            scrollDirection: Axis.horizontal,
-            physics: const PageScrollPhysics(),
-            itemBuilder: (context, index) {
-                return ColoredBox(
-                key: UniqueKey(),
-                color: Color(Random().nextInt(0xffffff) + 0xff000000),
-              );
-              }
-            )
-        );
-            
-
-```
-
-## Example
-
-```
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:paged_grid_view/paged_grid_view.dart';
@@ -156,4 +109,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-```
