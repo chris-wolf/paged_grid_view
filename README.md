@@ -8,7 +8,7 @@ GridView with following adjustments:
 * PageScrollPhysics set as default
 * Better scroll performance by changing cacheExtent depending on scrollOffset to prevent itemBuild during scrolling.
 
-An example comparing scroll preformance to GridView can be found here: [***dartpad.dev***](https://dartpad.dev/?id=6c9f64d9032cefa564b72c7bbd1c979a).
+An example comparing scroll preformance to GridView can be found at [**dartpad.dev.**](https://dartpad.dev/?id=6c9f64d9032cefa564b72c7bbd1c979a).
 
 > :warning: **Doesn't improve scrollController.animateTo performance**
 
