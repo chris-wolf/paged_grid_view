@@ -1,7 +1,13 @@
-## 0.0.1
+## 0.0.3
 
-* Added PagedGridView
+* Fixed exception that happened when scrolling multiple pages at once
+
 
 ## 0.0.2
 
 * Adjusted README
+
+
+## 0.0.1
+
+* Added PagedGridView

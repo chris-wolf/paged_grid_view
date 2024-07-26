@@ -1,6 +1,6 @@
 name: paged_grid_view
 description: GridView with PageScrollPhysics and better scrolling performance by not building items during scrolling.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/chris-wolf/paged_grid_view
 
 environment:

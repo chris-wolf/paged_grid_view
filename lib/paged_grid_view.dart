@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -161,7 +163,7 @@ class PagedRenderViewport extends RenderViewport {
 
     // move cacheExtentOrigin dependent on scrollOffset to prevent building new items during scrolling
     dynamicPagedCacheOrigin =
-        (lastIdleScrollOffset - scrollOffset) - mainAxisExtent;
+        min((lastIdleScrollOffset - scrollOffset) - mainAxisExtent, 0);
 
     // workaround for scrolling multiple pages without being idle in between, there should probably bee a better way...
     if (dynamicPagedCacheOrigin < -(buildItemsForPageCount - 1) * mainAxisExtent ||
