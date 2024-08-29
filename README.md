@@ -31,7 +31,9 @@ import 'package:paged_grid_view/paged_grid_view.dart';
               mainAxisExtent: MediaQuery.sizeOf(context).width / 10,
               crossAxisCount: 10),
           scrollDirection: Axis.horizontal,
-          physics: const PageScrollPhysics(),
+          onPageChanged: (index) {
+              debugPrint('changed to page $index');
+            },
           itemBuilder: (context, index) {
             return ColoredBox(
               key: UniqueKey(),
@@ -142,7 +144,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     MediaQuery.sizeOf(context).width / itemsPerColumn.round(),
                 crossAxisCount: itemsPerColumn.round()),
             scrollDirection: Axis.horizontal,
-            physics: const PageScrollPhysics(),
+            onPageChanged: (index) {
+              debugPrint('changed to page $index');
+            },
             itemBuilder: (context, index) {
               debugPrint("pagedGridView build item $index");
               return ColoredBox(

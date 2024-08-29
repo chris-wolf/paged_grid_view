@@ -3,8 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-
 class PagedGridView extends GridView {
+  final void Function(int pageIndex)? onPageChanged;
+
   PagedGridView({
     super.key,
     super.scrollDirection,
@@ -25,6 +26,7 @@ class PagedGridView extends GridView {
     super.clipBehavior,
     super.keyboardDismissBehavior,
     super.restorationId,
+    this.onPageChanged,
   });
 
   PagedGridView.builder({
@@ -49,6 +51,7 @@ class PagedGridView extends GridView {
     super.keyboardDismissBehavior,
     super.restorationId,
     super.clipBehavior,
+    this.onPageChanged,
   }) : super.builder(itemBuilder: itemBuilder);
 
   @override
@@ -90,11 +93,14 @@ class PagedGridView extends GridView {
       center: center,
       anchor: anchor,
       clipBehavior: clipBehavior,
+      onPageChanged: onPageChanged,
     );
   }
 }
 
 class PagedViewPort extends Viewport {
+  final void Function(int pageIndex)? onPageChanged;
+
   PagedViewPort({
     super.key,
     super.axisDirection = AxisDirection.down,
@@ -106,6 +112,7 @@ class PagedViewPort extends Viewport {
     super.cacheExtentStyle = CacheExtentStyle.pixel,
     super.clipBehavior = Clip.hardEdge,
     super.slivers,
+    this.onPageChanged,
   });
 
   @override
@@ -119,14 +126,16 @@ class PagedViewPort extends Viewport {
       cacheExtent: cacheExtent,
       cacheExtentStyle: cacheExtentStyle,
       clipBehavior: clipBehavior,
+      onPageChanged: onPageChanged,
     );
   }
 }
 
 class PagedRenderViewport extends RenderViewport {
-  static const buildItemsForPageCount = 3; // currentPage + previousPage + nextPage = 3
-
+  static const buildItemsForPageCount = 3;
+  int? lastPageIndex;
   double lastIdleScrollOffset = 0.0;
+  final void Function(int pageIndex)? onPageChanged;
 
   PagedRenderViewport({
     super.axisDirection,
@@ -138,7 +147,32 @@ class PagedRenderViewport extends RenderViewport {
     super.cacheExtent,
     super.cacheExtentStyle,
     super.clipBehavior,
+    this.onPageChanged,
   });
+
+  @override
+  void performLayout() {
+    super.performLayout();
+
+    if (onPageChanged == null) {
+      return;
+    }
+
+    // Calculate the current page index
+    final double mainAxisExtent = axisDirection == AxisDirection.left ||
+            axisDirection == AxisDirection.right
+        ? size.width
+        : size.height;
+    final int currentPageIndex = (offset.pixels / mainAxisExtent).round();
+
+    // If the page index has changed, trigger the callback
+    if (lastPageIndex != currentPageIndex) {
+      lastPageIndex = currentPageIndex;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onPageChanged?.call(currentPageIndex);
+      });
+    }
+  }
 
   @override
   double layoutChildSequence({
@@ -166,10 +200,13 @@ class PagedRenderViewport extends RenderViewport {
         min((lastIdleScrollOffset - scrollOffset) - mainAxisExtent, 0);
 
     // workaround for scrolling multiple pages without being idle in between, there should probably bee a better way...
-    if (dynamicPagedCacheOrigin < -(buildItemsForPageCount - 1) * mainAxisExtent ||
-        dynamicPagedCacheOrigin > (buildItemsForPageCount - 1) * mainAxisExtent) {
+    if (dynamicPagedCacheOrigin <
+            -(buildItemsForPageCount - 1) * mainAxisExtent ||
+        dynamicPagedCacheOrigin >
+            (buildItemsForPageCount - 1) * mainAxisExtent) {
       dynamicPagedCacheOrigin = -mainAxisExtent;
     }
+
     return super.layoutChildSequence(
         child: child,
         scrollOffset: scrollOffset,

@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:paged_grid_view/paged_grid_view.dart';
 
@@ -30,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double itemsPerColumn = 50;
+  double itemsPerColumn = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisCount: itemsPerColumn.round()),
             scrollDirection: Axis.horizontal,
             physics: const PageScrollPhysics(),
+            onPageChanged: (index) {
+              debugPrint('changed to page $index');
+            },
             itemBuilder: (context, index) {
               debugPrint("pagedGridView build item $index");
               return ColoredBox(
