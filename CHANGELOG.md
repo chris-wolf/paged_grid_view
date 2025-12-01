@@ -1,3 +1,7 @@
+## 0.0.5
+
+* fixed potential divide by zero error
+
 ## 0.0.4
 
 * added onPageChange callback

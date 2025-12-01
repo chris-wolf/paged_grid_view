@@ -163,6 +163,9 @@ class PagedRenderViewport extends RenderViewport {
             axisDirection == AxisDirection.right
         ? size.width
         : size.height;
+    if (mainAxisExtent <= 0) {
+      return;
+    }
     final int currentPageIndex = (offset.pixels / mainAxisExtent).round();
 
     // If the page index has changed, trigger the callback
